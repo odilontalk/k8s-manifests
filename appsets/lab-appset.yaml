@@ -40,6 +40,6 @@ spec:
           selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
         managedNamespaceMetadata:
           labels:
-            app.kubernetes.io/instance: '{{index .path.segments 1}}'
+            argocd.argoproj.io/instance: '{{index .path.segments 1}}-{{index .path.segments 3}}'
           annotations:
-            argocd.argoproj.io/tracking-id: '{{index .path.segments 1}}:/Namespace:{{index .path.segments 1}}-{{index .path.segments 3}}/{{index .path.segments 1}}-{{index .path.segments 3}}'
+            argocd.argoproj.io/tracking-id: '{{index .path.segments 1}}-{{index .path.segments 3}}:/Namespace:{{index .path.segments 1}}-{{index .path.segments 3}}/{{index .path.segments 1}}-{{index .path.segments 3}}'
