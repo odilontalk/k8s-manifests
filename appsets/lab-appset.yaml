@@ -39,6 +39,9 @@ spec:
           prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
           selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
         managedNamespaceMetadata:
+          # see https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/#choosing-a-tracking-method
+          # see https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/#additional-tracking-methods-via-an-annotation
+          # see https://github.com/argoproj/argo-cd/issues/7875
           labels:
             argocd.argoproj.io/instance: '{{index .path.segments 1}}-{{index .path.segments 3}}'
           annotations:
