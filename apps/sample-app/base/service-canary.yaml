@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sample-app-canary
+  labels:
+    app: sample-app
+    service: sample-app
+spec:
+  ports:
+    - name: http
+      port: 8080
+  selector:
+    app: sample-app

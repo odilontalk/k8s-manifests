@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: sample-app-rollout
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+        version: v1
+    spec:
+      serviceAccountName: sample-app
+      containers:
+        - name: sample-app
+          image: quay.io/brancz/prometheus-example-app:v0.4.0
+          ports:
+            - name: http
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 80m
+              memory: 128Mi
+  minReadySeconds: 10
+  revisionHistoryLimit: 3
+  strategy:
+    canary:
+      canaryService: sample-app-canary
+      stableService: sample-app
+      trafficRouting:
+        istio:
+          virtualService:
+            name: sample-app-vsvc
+            routes:
+            - primary
+      steps:
+        - setWeight: 10
+        - pause: { duration: 1m }
+        - setWeight: 30
+        - pause: { duration: 30s }
+        - setWeight: 50
+        - pause: { duration: 30s }
+      analysis:
+        templates:
+        - templateName: default-analysis-template
+        startingStep: 2
+        args:
+        - name: service-name
+          value: "sample-app-canary.default.svc.cluster.local"
