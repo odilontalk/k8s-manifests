@@ -12,9 +12,15 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
+  ignoreDifferences:
+  - group: networking.istio.io
+    kind: VirtualService
+    jsonPointers:
+    - /spec/http/0
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
+    - ApplyOutOfSyncOnly=true
     automated:
       prune: true
       selfHeal: true
