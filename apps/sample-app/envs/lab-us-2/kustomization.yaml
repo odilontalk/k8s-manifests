@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
 - ../../base
 
+nameSuffix: -lab
+
 patches:
 - path: rollout.yaml
