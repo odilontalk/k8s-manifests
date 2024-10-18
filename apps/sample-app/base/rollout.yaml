@@ -64,4 +64,4 @@ spec:
         startingStep: 2
         args:
         - name: service-name
-          value: "sample-app.sample-app-lab-us-2.svc.cluster.local"
+          value: "sample-app-canary"
