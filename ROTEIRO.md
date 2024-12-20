@@ -31,6 +31,7 @@ istioctl dashboard jaeger
 
 ```shell
 kubectl create namespace argocd
+
 kubectl -n argocd apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 kubectl -n argocd get secret argocd-initial-admin-secret --template={{.data.password}} | base64 --decode
